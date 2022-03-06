@@ -11,11 +11,10 @@ const port      = 3000;
 router.get('/search/:name', async (ctx) => {
 
     let users = await knex.select('*').from('guitarist').where('name', 'like', '%' + ctx.params.name + '%' );
-
-    if (users) {
-        ctx.body = nunjucks.render('user.html', { users });
-    }
-    ctx.body = { message : 'Not found' }
+    
+    ctx.body = users 
+        ? nunjucks.render('user.html', { users })
+        : { message : 'Not found' }
 
 });
 
